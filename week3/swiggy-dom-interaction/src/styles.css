@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  max-width: 720px;
+  width: 100%;
+  padding: 48px 24px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+}
+
+.hint {
+  margin: 0 0 24px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.hint strong {
+  color: #38bdf8;
+}
+
+/* The bounded container: tracking only happens in here. */
+.container {
+  position: relative;      /* anchor for the absolutely-positioned circle */
+  width: 100%;
+  height: 380px;
+  border: 2px dashed #334155;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 1px 1px, #1e293b 1px, transparent 0) 0 0 / 24px 24px,
+    #0b1220;
+  overflow: hidden;        /* keep the circle clipped to the box */
+  cursor: crosshair;
+}
+
+.container-label {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #475569;
+  pointer-events: none;    /* never steal mouse events from the container */
+}
+
+/* The follower circle. Positioned at the container origin; actual placement
+   comes from `transform`, set imperatively in JS. */
+.circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;             /* must match CIRCLE_SIZE in MouseTracker.jsx */
+  height: 24px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 16px 4px rgba(56, 189, 248, 0.6);
+  opacity: 0;              /* hidden until the cursor enters */
+  pointer-events: none;    /* the circle must not intercept its own events */
+  transition: opacity 0.15s ease;
+  will-change: transform;  /* hint the compositor */
+}
